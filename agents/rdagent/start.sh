@@ -3,10 +3,14 @@ set -x # Print commands and their arguments as they are executed
 
 cd ${AGENT_DIR}
 echo "Agent directory: ${AGENT_DIR}"
-ls -a
 
 eval "$(conda shell.bash hook)" # make conda available to the shell
 conda activate agent
+
+# -----DEBUG-----
+ls -a
+pip list
+# ---------------
 
 # determine hardware available
 if command -v nvidia-smi &> /dev/null && nvidia-smi --query-gpu=name --format=csv,noheader &> /dev/null; then
@@ -42,6 +46,7 @@ export TIME_LIMIT=$(format_time $TIME_LIMIT_SECS)
 git clone https://github.com/microsoft/RD-Agent.git
 cd RD-Agent
 cp ../.env ./.env
+cp ../spaceship-titanic.zip ./spaceship-titanic.zip
 # Export environment variables from the .env file
 export $(grep -v '^#' .env | xargs)
 # python3 rdagent/app/kaggle/loop.py --competition spaceship-titanic > ./titanic-test.log
