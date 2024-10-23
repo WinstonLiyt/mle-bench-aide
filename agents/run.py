@@ -119,6 +119,14 @@ def run_in_container(
             "bind": f"/private/data/{competition.id}/prepared/private/",
             "mode": "ro",
         },
+        "/data/userdata/share/kaggle/" : {
+            "bind": f"/data/userdata/share/kaggle/",
+            "mode": "ro",
+        },
+        "/data/userdata/v-taozhiwang/.config/kaggle" : {
+            "bind": f"/home/nonroot/.config/kaggle",
+            "mode": "ro",
+        },
     }
 
     container = create_competition_container(

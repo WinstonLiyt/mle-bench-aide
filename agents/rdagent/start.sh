@@ -43,15 +43,15 @@ export TIME_LIMIT=$(format_time $TIME_LIMIT_SECS)
 # ------------TEMP------------
 # Download the source code from the specified GitHub repository
 # environment var
-git clone https://github.com/microsoft/RD-Agent.git
-cd RD-Agent
+# git clone https://github.com/microsoft/RD-Agent.git
+# cd RD-Agent
 cp ../.env ./.env
 cp ../spaceship-titanic.zip ./spaceship-titanic.zip
 # Export environment variables from the .env file
 export $(grep -v '^#' .env | xargs)
 # python3 rdagent/app/kaggle/loop.py --competition spaceship-titanic > ./titanic-test.log
 
-ln -s ./log /data/userdata/v-taozhiwang/mle-bench/agents/rdagent/logs/
+# ln -s ./log /data/userdata/v-taozhiwang/mle-bench/agents/rdagent/logs/
 # cp titanic-test.log /data/userdata/v-taozhiwang/mle-bench/logs/
 
 
@@ -68,11 +68,10 @@ ln -s ./log /data/userdata/v-taozhiwang/mle-bench/agents/rdagent/logs/
 
 
 # run with timeout, and print if timeout occurs
-timeout $TIME_LIMIT_SECS python3 rdagent/app/kaggle/loop.py --competition spaceship-titanic > ./titanic-test.log
+timeout $TIME_LIMIT_SECS rdagent kaggle --competition spaceship-titanic > ./titanic-test.log
 if [ $? -eq 124 ]; then
   echo "Timed out after $TIME_LIMIT"
 fi
-
 
 # ------------END--------------
 

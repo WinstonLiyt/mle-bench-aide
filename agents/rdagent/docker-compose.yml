@@ -1,0 +1,7 @@
+version: '3'
+services:
+  rdagent:
+    image: rdagent
+    build: .
+    volumes:
+      - /data/userdata/share/kaggle/:/data/userdata/share/kaggle/
