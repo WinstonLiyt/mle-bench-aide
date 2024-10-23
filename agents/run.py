@@ -127,6 +127,10 @@ def run_in_container(
             "bind": f"/home/nonroot/.config/kaggle",
             "mode": "ro",
         },
+        "/home/v-yuanteli/mle-bench/mle_rdagent_logs" : {
+            "bind": f"/home/agent/log/",
+            "mode": "rw",
+        },
     }
 
     container = create_competition_container(

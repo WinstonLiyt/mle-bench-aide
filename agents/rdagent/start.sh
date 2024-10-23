@@ -7,11 +7,6 @@ echo "Agent directory: ${AGENT_DIR}"
 eval "$(conda shell.bash hook)" # make conda available to the shell
 conda activate agent
 
-# -----DEBUG-----
-ls -a
-pip list
-# ---------------
-
 # determine hardware available
 if command -v nvidia-smi &> /dev/null && nvidia-smi --query-gpu=name --format=csv,noheader &> /dev/null; then
   HARDWARE=$(nvidia-smi --query-gpu=name --format=csv,noheader \
@@ -40,13 +35,28 @@ format_time() {
 }
 export TIME_LIMIT=$(format_time $TIME_LIMIT_SECS)
 
+which python
+# pwd
+
+# if [ -f ../.env ]; then
+#   echo ".env file found in parent directory."
+# else
+#   echo "ERROR: .env file not found in parent directory!"
+# fi
+
+# if [ -f ../spaceship-titanic.zip ]; then
+#   echo "spaceship-titanic.zip file found in parent directory."
+# else
+#   echo "ERROR: spaceship-titanic.zip file not found in parent directory!"
+# fi
+
 # ------------TEMP------------
 # Download the source code from the specified GitHub repository
 # environment var
 # git clone https://github.com/microsoft/RD-Agent.git
 # cd RD-Agent
-cp ../.env ./.env
-cp ../spaceship-titanic.zip ./spaceship-titanic.zip
+# cp ../.env ./.env
+# cp ../spaceship-titanic.zip ./spaceship-titanic.zip
 # Export environment variables from the .env file
 export $(grep -v '^#' .env | xargs)
 # python3 rdagent/app/kaggle/loop.py --competition spaceship-titanic > ./titanic-test.log
