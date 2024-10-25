@@ -13,6 +13,8 @@ ENV CODE_DIR=${CODE_DIR}
 ARG AGENT_DIR
 ENV AGENT_DIR=${AGENT_DIR}
 
+RUN apt-get update && apt-get install -y docker.io
+
 RUN mkdir ${LOGS_DIR} ${CODE_DIR} ${AGENT_DIR}
 
 ARG CONDA_ENV_NAME=agent
@@ -30,4 +32,9 @@ RUN conda create -n ${CONDA_ENV_NAME} python=3.10 && \
     pip install --force-reinstall openai && \
     conda clean -afy
 # put all the agent files in the expected location
+
+COPY runner.py /opt/conda/envs/agent/lib/python3.11/site-packages/rdagent/scenarios/kaggle/developer/runner.py
+COPY env.py /opt/conda/envs/agent/lib/python3.11/site-packages/rdagent/utils/env.py
+COPY workspace.py /opt/conda/envs/agent/lib/python3.11/site-packages/rdagent/scenarios/kaggle/experiment/workspace.py
+
 COPY . ${AGENT_DIR}

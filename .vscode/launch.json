@@ -1,0 +1,17 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "run project",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/data/userdata/v-yuanteli/mle-bench/run_agent.py",
+            "args": ["--agent-id=rdagent","--competition-set=experiments/splits/spaceship-titanic.txt"],
+            "console": "integratedTerminal",
+            "python": "/home/v-yuanteli/miniconda3/envs/mle/bin/python",
+        },
+    ]
+}

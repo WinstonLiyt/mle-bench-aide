@@ -148,3 +148,5 @@ dmypy.json
 
 # mle_rdagent_logs folder
 mle_rdagent_logs/
+
+git_ignore_folder/
