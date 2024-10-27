@@ -58,6 +58,17 @@ async def worker(
 
         task_output = {}
         try:
+            run_in_container(
+                client=client,
+                competition=task.competition,
+                agent=task.agent,
+                image=task.agent.name,
+                container_config=task.container_config,
+                retain_container=args.retain,
+                run_dir=task.path_to_run,
+                logger=run_logger,
+            )
+
             await asyncio.to_thread(
                 run_in_container,
                 client=client,

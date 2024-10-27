@@ -81,6 +81,13 @@ ln -s ${LOGS_DIR} ${AGENT_DIR}/logs/exp
 ln -s ${CODE_DIR} ${AGENT_DIR}/workspaces/exp/best_solution
 ln -s ${SUBMISSION_DIR} ${AGENT_DIR}/workspaces/exp/best_submission
 
+
+# replace the above steps into following
+# 1) offline generate our template;  online generating template is OK, but it is not stable.
+# 2) link our files  based on the competition name
+# 3) like  steps below to run RD_Agent
+
+
 # run with timeout, and print if timeout occurs
 timeout $TIME_LIMIT_SECS aide data_dir="/home/data/" desc_file="${AGENT_DIR}/full_instructions.txt" \
   exp_name="exp" \

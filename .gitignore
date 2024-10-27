@@ -144,3 +144,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# mle_rdagent_logs folder
+mle_rdagent_logs/
+
+git_ignore_folder/

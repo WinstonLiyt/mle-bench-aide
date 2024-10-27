@@ -119,6 +119,26 @@ def run_in_container(
             "bind": f"/private/data/{competition.id}/prepared/private/",
             "mode": "ro",
         },
+        "/data/userdata/share/kaggle/" : {
+            "bind": f"/data/userdata/share/kaggle/",
+            "mode": "ro",
+        },
+        "/data/userdata/v-taozhiwang/.config/kaggle" : {
+            "bind": f"/home/nonroot/.config/kaggle",
+            "mode": "ro",
+        },
+        "/home/v-yuanteli/mle-bench/mle_rdagent_logs" : {
+            "bind": f"/home/agent/log/",
+            "mode": "rw",
+        },
+        "/var/run/docker.sock" : {
+            "bind": f"/var/run/docker.sock",
+            "mode": "rw,Z",
+        },
+        "/home/v-yuanteli/mle-bench/git_ignore_folder" : {
+            "bind": f"/home/agent/git_ignore_folder/",
+            "mode": "rw",
+        }
     }
 
     container = create_competition_container(
@@ -135,6 +155,7 @@ def run_in_container(
     )
 
     logger.info(purple(f"Run started: {run_dir}"))
+    print(123123)
     try:
         time_start = time.monotonic()
         container.start()
