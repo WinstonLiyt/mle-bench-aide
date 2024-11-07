@@ -4,6 +4,7 @@ outputs/
 /data/
 /data_privateonly/
 
+runs/
 runs/*/*/
 runs/*/metadata.json
 
