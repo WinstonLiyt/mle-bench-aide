@@ -1,6 +1,6 @@
 vars:
-  step_count: &step_count 100
-  time_limit: &time_limit 15000 # 5 min
+  step_count: &step_count 30
+  time_limit: &time_limit 60000 # 5 min
 
 defaults: &defaults
   start: aide/start.sh
@@ -11,7 +11,7 @@ defaults: &defaults
     STEP_LIMIT: *step_count
 
 kwargs_common: &kwargs_common
-  agent.search.max_debug_depth: 15 # debug down a branch for up to 20 steps
+  agent.search.max_debug_depth: 20 # debug down a branch for up to 20 steps
   agent.search.debug_prob: 1 # always debug when there's something to debug
   exec.timeout: 32400 # 9 hours limit _per step_, to match max of kaggle.com
   copy_data: False # use symbolic links
