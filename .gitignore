@@ -154,3 +154,4 @@ mle_rdagent_logs/
 git_ignore_folder/
 
 *.jsonl
+show/
