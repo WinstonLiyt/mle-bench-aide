@@ -90,8 +90,10 @@ ln -s ${SUBMISSION_DIR} ${AGENT_DIR}/workspaces/exp/best_submission
 
 # run with timeout, and print if timeout occurs
 timeout $TIME_LIMIT_SECS aide data_dir="/home/data/" desc_file="${AGENT_DIR}/full_instructions.txt" \
+  # node_path="/data/userdata/v-yuanteli/mle-bench/runs/2024-11-20T08-30-57-GMT_run-group_aide/spaceship-titanic_a5a0f78d-80bd-4e05-9a3c-a1a7b898cc0f/logs" \
   exp_name="exp" \
-  $@ # forward the bash arguments to aide
+  "$@" # forward the bash arguments to aide
+
 if [ $? -eq 124 ]; then
-  echo "Timed out after $TIME_LIMIT"
+  echo "Timed out after $TIME_LIMIT_SECS seconds"
 fi

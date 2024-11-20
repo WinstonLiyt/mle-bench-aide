@@ -1,6 +1,6 @@
 vars:
   step_count: &step_count 30
-  time_limit: &time_limit 60000 # 5 min
+  time_limit: &time_limit 120 # 5 min
 
 defaults: &defaults
   start: aide/start.sh
