@@ -43,11 +43,12 @@ def save_output(container: Container, save_dir: Path, container_config: dict) ->
     return save_dir
 
 
-def execute_agent(container: Container, agent: Agent, logger: logging.Logger):
+def execute_agent(container: Container, agent: Agent, logger: logging.Logger, node_path: str | None) -> None:
     """
     Initiates the agent via its start script inside the container.
     """
-    cmd = ["bash", f"{CONSTANTS['AGENT_DIR']}/start.sh"]
+    cmd = ["bash", f"{CONSTANTS['AGENT_DIR']}/start.sh", node_path]
+    # cmd = ["bash", f"{CONSTANTS['AGENT_DIR']}/start.sh"]
 
     if agent.kwargs_type == "argparse":
         for key, value in agent.kwargs.items():
@@ -119,6 +120,10 @@ def run_in_container(
             "bind": f"/private/data/{competition.id}/prepared/private/",
             "mode": "ro",
         },
+        "/data/userdata/v-yuanteli/mle-bench/runs/": {
+            "bind": "/home/runs/",
+            "mode": "rw",
+        },
         # "/data/userdata/share/kaggle/" : {
         #     "bind": f"/data/userdata/share/kaggle/",
         #     "mode": "ro",
@@ -154,7 +159,20 @@ def run_in_container(
         privileged=agent.privileged,
     )
 
-    logger.info(purple(f"Run started: {run_dir}"))
+    # if there exists a node_path.txt file, read the node_path from it, and pick the corresponding node_path based on competition.id
+    # if not, node_path = "standard"
+    node_path = "standard"
+    node_path_file = Path("/data/userdata/v-yuanteli/mle-bench/node_path.txt")
+
+    if node_path_file.exists():
+        with open(node_path_file, "r") as file:
+            node_paths = file.readlines()
+            for line in node_paths:
+                if competition.id in line:
+                    node_path = line.strip().replace("/data/userdata/v-yuanteli/mle-bench/runs", "/home/runs")
+                    break
+
+    logger.info(purple(f"Run started: {run_dir} with node_path: {node_path}"))
     try:
         time_start = time.monotonic()
         container.start()
@@ -165,7 +183,7 @@ def run_in_container(
             raise RuntimeError(
                 "The grading server failed to start within 60 seconds. This is likely due to an error in `entrypoint.sh`; check the logs."
             )
-        execute_agent(container, agent, logger)
+        execute_agent(container, agent, logger, node_path)
         save_output(container, run_dir, container_config)
         time_end = time.monotonic()
         logger.info(f"Run completed in {time_end - time_start:.2f} seconds.")
