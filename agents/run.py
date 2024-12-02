@@ -124,26 +124,6 @@ def run_in_container(
             "bind": "/home/runs/",
             "mode": "rw",
         },
-        # "/data/userdata/share/kaggle/" : {
-        #     "bind": f"/data/userdata/share/kaggle/",
-        #     "mode": "ro",
-        # },
-        # "/data/userdata/v-taozhiwang/.config/kaggle" : {
-        #     "bind": f"/home/nonroot/.config/kaggle",
-        #     "mode": "ro",
-        # },
-        # "/home/v-yuanteli/mle-bench/mle_rdagent_logs" : {
-        #     "bind": f"/home/agent/log/",
-        #     "mode": "rw",
-        # },
-        # "/var/run/docker.sock" : {
-        #     "bind": f"/var/run/docker.sock",
-        #     "mode": "rw,Z",
-        # },
-        # "/home/v-yuanteli/mle-bench/git_ignore_folder" : {
-        #     "bind": f"/home/agent/git_ignore_folder/",
-        #     "mode": "rw",
-        # }
     }
 
     container = create_competition_container(
@@ -162,7 +142,7 @@ def run_in_container(
     # if there exists a node_path.txt file, read the node_path from it, and pick the corresponding node_path based on competition.id
     # if not, node_path = "standard"
     node_path = "standard"
-    node_path_file = Path("/data/userdata/v-yuanteli/mle-bench/node_path.txt")
+    node_path_file = Path("node_path.txt")
 
     if node_path_file.exists():
         with open(node_path_file, "r") as file:
