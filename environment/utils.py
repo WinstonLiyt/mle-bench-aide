@@ -149,6 +149,7 @@ def create_competition_container(
         volumes=volumes_config,
         environment=env_vars,
         privileged=privileged,
+        network="host",
     )
 
     logger.info(f"Container created: {container.name}")

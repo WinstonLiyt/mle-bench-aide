@@ -1,6 +1,11 @@
 #!/bin/bash
 set -x # Print commands and their arguments as they are executed
 
+# replace http://localhost:5000 with http://localhost:${MLE_GRADING_PORT}
+sed -i "s|http://localhost:5000|http://localhost:${MLE_GRADING_PORT}|g" /home/instructions.txt
+sed -i "s|http://localhost:5000|http://localhost:${MLE_GRADING_PORT}|g" /home/additional_notes.txt
+sed -i "s|http://localhost:5000|http://localhost:${MLE_GRADING_PORT}|g" /home/instructions_obfuscated.txt
+
 cd ${AGENT_DIR}
 
 eval "$(conda shell.bash hook)" # make conda available to the shell
@@ -83,8 +88,10 @@ ln -s ${SUBMISSION_DIR} ${AGENT_DIR}/workspaces/exp/best_submission
 
 # run with timeout, and print if timeout occurs
 timeout $TIME_LIMIT_SECS aide data_dir="/home/data/" desc_file="${AGENT_DIR}/full_instructions.txt" \
+  node_path=$1 \
   exp_name="exp" \
-  $@ # forward the bash arguments to aide
+  "${@:2}" # forward all arguments except the first to aide
+
 if [ $? -eq 124 ]; then
-  echo "Timed out after $TIME_LIMIT"
+  echo "Timed out after $TIME_LIMIT_SECS seconds"
 fi

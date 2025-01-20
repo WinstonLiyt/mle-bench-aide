@@ -40,4 +40,4 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=os.environ.get("MLE_GRADING_PORT", 5000))
