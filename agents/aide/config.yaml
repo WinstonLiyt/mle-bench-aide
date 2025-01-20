@@ -26,11 +26,14 @@ aide:
     agent.steps: *step_count
   env_vars:
     <<: *env_vars
+    AZURE_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+    OPENAI_API_VERSION: ${{ secrets.AZURE_API_VERSION }} # 2024-05-01-preview
     # AZURE_OPENAI_AD_TOKEN: ${{ secrets.AZURE_OPENAI_AD_TOKEN }}
     # AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
     # OPENAI_API_VERSION: ${{ secrets.OPENAI_API_VERSION }} # 2024-05-01-preview
-    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-    OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+    # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    # OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
 
 aide/dev:
   <<: *defaults
@@ -41,11 +44,14 @@ aide/dev:
     agent.steps: 8
   env_vars:
     <<: *env_vars
+    AZURE_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+    OPENAI_API_VERSION: ${{ secrets.AZURE_API_VERSION }} # 2024-05-01-preview
     # AZURE_OPENAI_AD_TOKEN: ${{ secrets.AZURE_OPENAI_AD_TOKEN }}
     # AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
     # OPENAI_API_VERSION: ${{ secrets.OPENAI_API_VERSION }} # 2024-05-01-preview
-    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-    OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+    # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    # OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
 
 aide/o1-preview:
   <<: *defaults
