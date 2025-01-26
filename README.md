@@ -5,8 +5,11 @@ Code for the paper ["MLE-Bench: Evaluating Machine Learning Agents on Machine Le
 ## Differences from the Official Repository
 
 **1. Added support for Azure OpenAI API calls.**
+
 **2. Enabled continuation of runs based on completed traces (e.g., after an initial 24-hour run, you can continue for another 24/48 hours, etc.).**
+
 **3. Fixed several minor bugs.**
+
 **4. Added some useful scripts.**
 
 ## Setup
