@@ -2,6 +2,13 @@
 
 Code for the paper ["MLE-Bench: Evaluating Machine Learning Agents on Machine Learning Engineering"](https://arxiv.org/abs/2410.07095). We have released the code used to construct the dataset, the evaluation logic, as well as the agents we evaluated for this benchmark.
 
+## Differences from the Official Repository
+
+**1. Added support for Azure OpenAI API calls.**
+**2. Enabled continuation of runs based on completed traces (e.g., after an initial 24-hour run, you can continue for another 24/48 hours, etc.).**
+**3. Fixed several minor bugs.**
+**4. Added some useful scripts.**
+
 ## Setup
 
 Some MLE-bench competition data is stored using [Git-LFS](https://git-lfs.com/).
