@@ -1,6 +1,11 @@
 #!/bin/bash
 set -x # Print commands and their arguments as they are executed
 
+# replace http://localhost:5000 with http://localhost:${MLE_GRADING_PORT}
+sed -i "s|http://localhost:5000|http://localhost:${MLE_GRADING_PORT}|g" /home/instructions.txt
+sed -i "s|http://localhost:5000|http://localhost:${MLE_GRADING_PORT}|g" /home/additional_notes.txt
+sed -i "s|http://localhost:5000|http://localhost:${MLE_GRADING_PORT}|g" /home/instructions_obfuscated.txt
+
 cd ${AGENT_DIR}
 
 eval "$(conda shell.bash hook)" # make conda available to the shell
@@ -80,13 +85,6 @@ mkdir -p ${AGENT_DIR}/logs
 ln -s ${LOGS_DIR} ${AGENT_DIR}/logs/exp
 ln -s ${CODE_DIR} ${AGENT_DIR}/workspaces/exp/best_solution
 ln -s ${SUBMISSION_DIR} ${AGENT_DIR}/workspaces/exp/best_submission
-
-
-# replace the above steps into following
-# 1) offline generate our template;  online generating template is OK, but it is not stable.
-# 2) link our files  based on the competition name
-# 3) like  steps below to run RD_Agent
-
 
 # run with timeout, and print if timeout occurs
 timeout $TIME_LIMIT_SECS aide data_dir="/home/data/" desc_file="${AGENT_DIR}/full_instructions.txt" \

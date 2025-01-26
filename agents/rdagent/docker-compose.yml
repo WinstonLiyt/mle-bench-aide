@@ -1,9 +1,0 @@
-version: '3'
-services:
-  rdagent:
-    image: rdagent
-    build: .
-    privileged: true
-    volumes:
-      - /data/userdata/share/kaggle/:/data/userdata/share/kaggle/
-      - /var/run/docker.sock:/var/run/docker.sock

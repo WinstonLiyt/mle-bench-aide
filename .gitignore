@@ -155,3 +155,9 @@ git_ignore_folder/
 
 *.jsonl
 show/
+
+grade_graph.ipynb
+grade.sh
+run_project.sh
+launch.json
+node_path.txt

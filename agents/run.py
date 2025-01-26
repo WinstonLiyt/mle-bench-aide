@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 from pathlib import Path
 
@@ -14,6 +15,8 @@ from environment.utils import (
 )
 from mlebench.registry import Competition
 from mlebench.utils import purple
+from conf import settings
+import socket
 
 CONSTANTS = dotenv_values(Path(__file__).parent.resolve() / ".shared_env")
 
@@ -48,7 +51,6 @@ def execute_agent(container: Container, agent: Agent, logger: logging.Logger, no
     Initiates the agent via its start script inside the container.
     """
     cmd = ["bash", f"{CONSTANTS['AGENT_DIR']}/start.sh", node_path]
-    # cmd = ["bash", f"{CONSTANTS['AGENT_DIR']}/start.sh"]
 
     if agent.kwargs_type == "argparse":
         for key, value in agent.kwargs.items():
@@ -111,6 +113,7 @@ def run_in_container(
     Returns:
         Path to the output file.
     """
+    run_path = settings.mle_bench_absolute_path + "/runs"
     volumes_config = {
         competition.public_dir.resolve().as_posix(): {
             "bind": "/home/data",
@@ -120,11 +123,18 @@ def run_in_container(
             "bind": f"/private/data/{competition.id}/prepared/private/",
             "mode": "ro",
         },
-        "/data/userdata/v-yuanteli/mle-bench/runs/": {
+        run_path: {
             "bind": "/home/runs/",
             "mode": "rw",
         },
     }
+
+    def find_free_port():
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind(('', 0))
+            return s.getsockname()[1]
+
+    free_port = find_free_port()
 
     container = create_competition_container(
         client=client,
@@ -133,6 +143,7 @@ def run_in_container(
         volumes_config=volumes_config,
         env_vars={
             "COMPETITION_ID": competition.id,
+            "MLE_GRADING_PORT": str(free_port),
             **agent.env_vars,
         },
         container_image=image,
@@ -149,7 +160,7 @@ def run_in_container(
             node_paths = file.readlines()
             for line in node_paths:
                 if competition.id in line:
-                    node_path = line.strip().replace("/data/userdata/v-yuanteli/mle-bench/runs", "/home/runs")
+                    node_path = line.strip().replace(run_path, "/home/runs")
                     break
 
     logger.info(purple(f"Run started: {run_dir} with node_path: {node_path}"))
@@ -157,7 +168,7 @@ def run_in_container(
         time_start = time.monotonic()
         container.start()
         exit_code, _ = container.exec_run(
-            'timeout 60s sh -c "while ! curl -s http://localhost:5000/health > /dev/null; do sleep 1; done"'
+            f'timeout 60s sh -c "while ! curl -s http://localhost:$MLE_GRADING_PORT/health > /dev/null; do sleep 1; done"'
         )
         if exit_code != 0:
             raise RuntimeError(

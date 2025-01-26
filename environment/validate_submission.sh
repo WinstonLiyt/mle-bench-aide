@@ -6,7 +6,7 @@
 # Usage: ./validate_submission.sh user_submission.csv
 
 SUBMISSION_FILE=$1
-SERVER_URL="http://localhost:5000/validate"
+SERVER_URL=http://localhost:$MLE_GRADING_PORT/validate
 
 if [ -z "$SUBMISSION_FILE" ]; then
     echo "Usage: $0 <submission_file>"

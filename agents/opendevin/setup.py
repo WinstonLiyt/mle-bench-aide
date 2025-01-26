@@ -35,6 +35,7 @@ additional_notes = additional_notes_template.substitute(
     max_time_in_hours=args.max_time_in_hours,
     max_steps=args.max_steps,
     workspace=CODE_DIR,
+    mle_grading_port = os.environ.get("MLE_GRADING_PORT", 5000),
 )
 
 with open(AGENT_DIR / "config.toml", "w") as file:
