@@ -22,8 +22,8 @@ def main(
         metadata = json.load(f)
 
     for run_id in metadata["runs"]:
-        run_dir = metadata_path.parent / run_id
-        # run_dir = metadata_path.parent.parent / run_id  # if use grade_for_each_loop.sh
+        # run_dir = metadata_path.parent / run_id
+        run_dir = metadata_path.parent.parent / run_id  # if use grade_for_each_loop.sh
         # run_id is something like f"{comp_id}_bfa0c73d"
         comp_id = run_id.split("_")[0]
 
