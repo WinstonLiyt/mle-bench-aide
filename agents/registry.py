@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
+import os
+from jinja2 import Template
 
 import yaml
 
@@ -70,7 +72,19 @@ class Registry:
 
         for fpath in agents_dir.glob("**/config.yaml"):
             with open(fpath, "r") as f:
-                contents = yaml.safe_load(f)
+                template = Template(f.read())
+                rendered = template.render(
+                    enable_o1_series=os.getenv("ENABLE_O1_SERIES", "false").lower() == "true",
+                    secrets={
+                        "CHAT_MODEL": os.getenv("CHAT_MODEL"),
+                        "OPENAI_API_KEY": os.getenv("OPENAI_API_KEY"),
+                        "OPENAI_BASE_URL": os.getenv("OPENAI_BASE_URL"),
+                    }
+                )
+            print(os.getenv("ENABLE_EXTRA_PARAMS", "false").lower() == "true")
+            print(f"Rendered config: {rendered}")
+
+            contents = yaml.safe_load(rendered)
 
             if agent_id not in contents:
                 continue

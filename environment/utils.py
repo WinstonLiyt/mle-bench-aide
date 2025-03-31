@@ -150,9 +150,9 @@ def create_competition_container(
         environment=env_vars,
         privileged=privileged,
         # network="host",
-        device_requests=[
-            docker.types.DeviceRequest(count=1, capabilities=[["gpu"]])
-        ],
+        # device_requests=[
+        #     docker.types.DeviceRequest(count=1, capabilities=[["gpu"]])
+        # ],
     )
 
     logger.info(f"Container created: {container.name}")
